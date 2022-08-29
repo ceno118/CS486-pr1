@@ -1,0 +1,23 @@
+class: "PacmanSearchTest"
+algorithm: "uniformCostSearch"
+points: "0.5"
+
+# The following specifies the layout to be used 
+layoutName: "mediumMazeSearch"
+layout: """
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%       % % %              %.%
+%       % % %%%%%% %%%%%%% % %
+%       %        %     % %   %
+%%%%% %%%%% %%% %% %%%%% % %%%
+%   % % % %   %    %     %   %
+% %%% % % % %%%%%%%% %%% %%% %
+%       %     %%     % % %   %
+%%% % %%%%%%% %%%% %%% % % % %
+% %           %%     %     % %
+% % %%%%% % %%%% % %%% %%% % %
+%   %     %      % %   % %%% %
+%   %P%%%%%      % %%% %     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+"""
+searchProblemClass: "FoodSearchProblem"

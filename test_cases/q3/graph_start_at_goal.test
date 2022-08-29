@@ -1,0 +1,19 @@
+class: "GraphSearchTest"
+algorithm: "uniformCostSearch"
+
+diagram: """
+ *G
+
+G is the start state, G is the goal.  This tests whether
+you are performing the goal test at the right point.
+"""
+# The following section specifies the search problem and the solution.
+# The graph is specified by first the set of start states, followed by
+# the set of goal states, and lastly by the state transitions which are
+# of the form:
+#      <start state> <actions> <end state> <cost>
+graph: """
+start_state: G
+goal_states: G
+G 0:G->G G 0
+"""
