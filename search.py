@@ -17,6 +17,7 @@ In search.py, you will implement generic search algorithms which are called by
 Pacman agents (in searchAgents.py).
 """
 
+from tracemalloc import start
 import util
 
 class SearchProblem:
@@ -92,10 +93,47 @@ def depthFirstSearch(problem):
     print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
 
-    #Set to hold states we've visited
+    from game import Directions
+    n = Directions.NORTH
+    s = Directions.SOUTH
+    e = Directions.EAST
+    w = Directions.WEST
+
     start_state = problem.getStartState()
-    visited = {start_state}
+    visited = set()
+    stack = util.Stack()
+    stack.push(start_state)
+    curr_state = start_state
+    state_path = set()
+    directions = []
+
+    while not problem.isGoalState(curr_state) and not stack.isEmpty:
+        prev_state = curr_state
+        curr_state = stack.pop()
+        if curr_state not in visited:
+            visited.add(curr_state)
+            #state_path.add(curr_state)
+        successors = problem.getSuccessors(curr_state)
+        prev_successors = problem.getSuccessors(prev_state)
+        if not successors and not problem.isGoalState(curr_state):
+            state_path = set()
+            curr_state = stack.pop()
+        elif successors and not problem.isGoalState(curr_state):
+            for state in prev_successors:
+                if state[0] == curr_state[0]:
+                    state_path.add(state[1])
+            for state in successors:
+                stack.push(state)
+            curr_state = stack.pop()
     
+    #for i in range(len(state_path)):
+    print("AAAAAAAAAAAAAAAAAAAAAAAAA")
+    print(state_path)
+    return [n]
+
+
+
+
 
 
     util.raiseNotDefined()
