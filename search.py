@@ -91,6 +91,13 @@ def depthFirstSearch(problem):
     print("Start:", problem.getStartState())
     print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
     print("Start's successors:", problem.getSuccessors(problem.getStartState()))
+
+    #Set to hold states we've visited
+    start_state = problem.getStartState()
+    visited = {start_state}
+    
+
+
     util.raiseNotDefined()
 
 def breadthFirstSearch(problem):
