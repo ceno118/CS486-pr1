@@ -89,51 +89,28 @@ def depthFirstSearch(problem):
     """
     "*** YOUR CODE HERE ***"
 
-    print("Start:", problem.getStartState())
-    print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
-    print("Start's successors:", problem.getSuccessors(problem.getStartState()))
-
-    from game import Directions
-    n = Directions.NORTH
-    s = Directions.SOUTH
-    e = Directions.EAST
-    w = Directions.WEST
-
-    start_state = problem.getStartState()
+    actions = []
     visited = set()
-    stack = util.Stack()
-    stack.push(start_state)
-    curr_state = start_state
-    state_path = set()
-    directions = []
-
-    while not problem.isGoalState(curr_state) and not stack.isEmpty:
-        prev_state = curr_state
-        curr_state = stack.pop()
-        if curr_state not in visited:
-            visited.add(curr_state)
-            #state_path.add(curr_state)
-        successors = problem.getSuccessors(curr_state)
-        prev_successors = problem.getSuccessors(prev_state)
-        if not successors and not problem.isGoalState(curr_state):
-            state_path = set()
-            curr_state = stack.pop()
-        elif successors and not problem.isGoalState(curr_state):
-            for state in prev_successors:
-                if state[0] == curr_state[0]:
-                    state_path.add(state[1])
-            for state in successors:
-                stack.push(state)
-            curr_state = stack.pop()
+    start_state = problem.getStartState()
     
-    #for i in range(len(state_path)):
-    print("AAAAAAAAAAAAAAAAAAAAAAAAA")
-    print(state_path)
-    return [n]
+
+    def dfs(problem, start):
+        if problem.isGoalState(start):
+            return True
+        if start not in visited:
+            visited.add(start)
+            successors = problem.getSuccessors(start)
+            successors.reverse()
+            for state in successors:
+                if dfs(problem, state[0]):
+                    actions.append(state[1])
+                    return True
+        return False
 
 
-
-
+    dfs(problem, start_state)
+    actions.reverse()
+    return actions
 
 
     util.raiseNotDefined()
@@ -141,6 +118,35 @@ def depthFirstSearch(problem):
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
+
+    actions = []
+    queue = util.Queue()
+    #queue.push(problem.getStartState())
+    visited = set()
+
+    def bfs(problem, start):
+        if queue.isEmpty():
+            queue.push(start)
+        curr = queue.pop()
+        if problem.isGoalState(curr):
+            return True
+        while queue:
+            successors = problem.getSuccessors(curr)
+            for state in successors:
+                if state[0] not in visited:
+                    visited.add(state[0])
+                    queue.push(state[0])
+                if bfs(problem, state[0]):
+                    actions.append(state[1])
+                    return True
+        return False
+
+    bfs(problem, problem.getStartState())
+
+    return actions
+                
+
+
     util.raiseNotDefined()
 
 def uniformCostSearch(problem):
