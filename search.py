@@ -120,32 +120,44 @@ def breadthFirstSearch(problem):
     "*** YOUR CODE HERE ***"
 
     actions = []
-    queue = util.Queue()
-    #queue.push(problem.getStartState())
+    final_path = []
+    start_state = problem.getStartState()
+    q = util.Queue()
+    q.push(start_state)
     visited = set()
+    graph = {}
+    found = False
+    start = True
 
-    def bfs(problem, start):
-        if queue.isEmpty():
-            queue.push(start)
-        curr = queue.pop()
-        if problem.isGoalState(curr):
-            return True
-        while queue:
-            successors = problem.getSuccessors(curr)
-            for state in successors:
-                if state[0] not in visited:
-                    visited.add(state[0])
-                    queue.push(state[0])
-                if bfs(problem, state[0]):
-                    actions.append(state[1])
-                    return True
-        return False
+    if not problem.isGoalState(start_state):
+        while not q.isEmpty() and not found:
+            if start:
+                path = [q.pop()]
+                start = False
+            else: 
+                path = q.pop()
+            curr = path[-1]
+            if problem.isGoalState(curr):
+                final_path = path
+                found = True
+            elif curr not in visited:
+                visited.add(curr)
+                successors = problem.getSuccessors(curr)
+                graph[curr] = successors
+                for state in successors:
+                    t_path = list(path)
+                    t_path.append(state[0])
+                    if problem.isGoalState(state[0]):
+                        q.push_front(t_path)
+                    else:
+                        q.push(t_path)
 
-    bfs(problem, problem.getStartState())
+    for i in range(len(final_path) - 1):
+        for next in graph[final_path[i]]:
+            if next[0] == final_path[i+1]:
+                actions.append(next[1])
 
     return actions
-                
-
 
     util.raiseNotDefined()
 
