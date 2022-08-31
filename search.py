@@ -164,6 +164,51 @@ def breadthFirstSearch(problem):
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
+
+    final_path = []
+    start_state = problem.getStartState()
+    q = util.PriorityQueue()
+    q.push(start_state, 0)
+    visited = set()
+    graph = {}
+    found = False
+    start = True
+
+    def makeActions(p):
+        actList = []
+        for i in range(len(p) - 1):
+            for next in graph[p[i]]:
+                if next[0] == p[i+1]:
+                    actList.append(next[1])
+        return actList
+    
+    
+    if not problem.isGoalState(start_state):
+        while not q.isEmpty() and not found:
+            if start:
+                path = [q.pop()]
+                start = False
+            else: 
+                path = q.pop()
+            curr = path[-1]
+            if problem.isGoalState(curr):
+                final_path = path
+                found = True
+            elif curr not in visited:
+                visited.add(curr)
+                successors = problem.getSuccessors(curr)
+                graph[curr] = successors
+                for state in successors:
+                    t_path = list(path)
+                    t_path.append(state[0])
+                    tAct = makeActions(t_path)
+                    t_cost = problem.getCostOfActions(tAct)
+                    q.push(t_path, t_cost)
+
+    return makeActions(final_path)
+
+
+
     util.raiseNotDefined()
 
 def nullHeuristic(state, problem=None):
@@ -176,6 +221,49 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
+
+    final_path = []
+    start_state = problem.getStartState()
+    q = util.PriorityQueue()
+    q.push(start_state, 0)
+    visited = set()
+    graph = {}
+    found = False
+    start = True
+
+    def makeActions(p):
+        actList = []
+        for i in range(len(p) - 1):
+            for next in graph[p[i]]:
+                if next[0] == p[i+1]:
+                    actList.append(next[1])
+        return actList
+    
+    
+    if not problem.isGoalState(start_state):
+        while not q.isEmpty() and not found:
+            if start:
+                path = [q.pop()]
+                start = False
+            else: 
+                path = q.pop()
+            curr = path[-1]
+            if problem.isGoalState(curr):
+                final_path = path
+                found = True
+            elif curr not in visited:
+                visited.add(curr)
+                successors = problem.getSuccessors(curr)
+                graph[curr] = successors
+                for state in successors:
+                    t_path = list(path)
+                    t_path.append(state[0])
+                    tAct = makeActions(t_path)
+                    t_cost = problem.getCostOfActions(tAct) + heuristic(state[0], problem)
+                    q.push(t_path, t_cost)
+
+    return makeActions(final_path)
+    
     util.raiseNotDefined()
 
 

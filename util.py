@@ -190,6 +190,12 @@ class PriorityQueue:
 
     def isEmpty(self):
         return len(self.heap) == 0
+    
+    def print(self):
+        print(self.heap)
+
+    def len(self):
+        return len(self.heap)
 
 class PriorityQueueWithFunction(PriorityQueue):
     """
