@@ -89,11 +89,22 @@ def depthFirstSearch(problem):
     """
     "*** YOUR CODE HERE ***"
 
+    '''
+    Recursive DFS implementation that adds a successor state's action to a list of actions if that state leads to
+    the goal state.
+    '''
+    '''
+    CDT Mason Nunn '23 D4. Written assistance to the author.
+    I was having trouble understanding how the successors were presented in the triple after calling getSuccessors.
+    CDT Nunn explained the structure of the triple and how I could index it to access the specific parts that I needed
+    at a given point. I used that information in all of the problems in this project.
+    '''
+
+
     actions = []
     visited = set()
     start_state = problem.getStartState()
     
-
     def dfs(problem, start):
         if problem.isGoalState(start):
             return True
@@ -103,13 +114,12 @@ def depthFirstSearch(problem):
             successors.reverse()
             for state in successors:
                 if dfs(problem, state[0]):
-                    actions.append(state[1])
+                    actions.insert(0, state[1])
                     return True
         return False
 
 
     dfs(problem, start_state)
-    actions.reverse()
     return actions
 
 
@@ -119,6 +129,13 @@ def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
 
+    '''
+    https://stackoverflow.com/questions/8922060/how-to-trace-the-path-in-a-breadth-first-search
+    I understood how BFS worked in general, but I was having trouble implementing a way to add only the correct
+    actions to the list. I found this website, which helped me understand that I could queue entire paths, rather than
+    individual nodes. I was able to use that information to solve BFS, and used it for the rest of the search implementations.
+    '''
+    
     actions = []
     final_path = []
     start_state = problem.getStartState()
@@ -129,6 +146,15 @@ def breadthFirstSearch(problem):
     found = False
     start = True
 
+    def makeActions(p): # Function to turn a path of states into a list of actions to move through those states.
+        actList = []
+        for i in range(len(p) - 1):
+            for next in graph[p[i]]:
+                if next[0] == p[i+1]:
+                    actList.append(next[1])
+        return actList
+    
+    
     if not problem.isGoalState(start_state):
         while not q.isEmpty() and not found:
             if start:
@@ -149,16 +175,14 @@ def breadthFirstSearch(problem):
                     t_path = list(path)
                     t_path.append(state[0])
                     if problem.isGoalState(state[0]):
-                        q.push_front(t_path)
+                        q.push_front(t_path) 
+                        # Method I added to util.Queue to force something to the front of the queue.
+                        # This was the best way I could find to fix a problem where I could find a path to the goal,
+                        # but it still expanded another node after due to how things are added to a queue.
                     else:
                         q.push(t_path)
 
-    for i in range(len(final_path) - 1):
-        for next in graph[final_path[i]]:
-            if next[0] == final_path[i+1]:
-                actions.append(next[1])
-
-    return actions
+    return makeActions(final_path)
 
     util.raiseNotDefined()
 

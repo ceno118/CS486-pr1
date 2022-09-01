@@ -154,10 +154,10 @@ class Queue:
         "Returns true if the queue is empty"
         return len(self.list) == 0
 
-    def print(self):
+    def print(self): #added for debugging
         print(self.list)
 
-    def push_front(self, item):
+    def push_front(self, item): #added for use in search, explained in BFS comment
         self.list.append(item)
 
 class PriorityQueue:
@@ -191,11 +191,8 @@ class PriorityQueue:
     def isEmpty(self):
         return len(self.heap) == 0
     
-    def print(self):
+    def print(self): #added for debugging
         print(self.heap)
-
-    def len(self):
-        return len(self.heap)
 
 class PriorityQueueWithFunction(PriorityQueue):
     """

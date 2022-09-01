@@ -299,8 +299,18 @@ class CornersProblem(search.SearchProblem):
         space)
         """
         "*** YOUR CODE HERE ***"
+        '''
+        I couldn't find a way to make this work, but the idea was that I would use the position and the status
+        of the four corners as my state. Once all 4 corners had been visited, we would be at the goal state.
+
+        I ended up moving on from trying to implement this, so I had the state just be the position so I could use
+        it for problem 6.
+        '''
+        
         pos = self.startingPosition
         return (pos)
+        # Would have looked something like this:
+        return (pos, self.visited)
 
         util.raiseNotDefined()
 
@@ -310,7 +320,7 @@ class CornersProblem(search.SearchProblem):
         """
         "*** YOUR CODE HERE ***"
         
-        #print(self.visited)
+        # returns true if all corners have been visited.
         return not False in self.visited.values() 
 
         util.raiseNotDefined()
@@ -337,6 +347,11 @@ class CornersProblem(search.SearchProblem):
 
             "*** YOUR CODE HERE ***"
 
+            '''
+            The idea here was that if the current position was a corner, we would mark it visited, and if the next
+            position was a corner, we would add a state to successors that had the corner marked as visited.
+            '''
+            
             x,y = state
             if state in self.corners:
                 self.visited[state] = True
