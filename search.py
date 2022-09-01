@@ -133,10 +133,11 @@ def breadthFirstSearch(problem):
         while not q.isEmpty() and not found:
             if start:
                 path = [q.pop()]
+                curr = path[0]
                 start = False
             else: 
                 path = q.pop()
-            curr = path[-1]
+                curr = path[-1]
             if problem.isGoalState(curr):
                 final_path = path
                 found = True
